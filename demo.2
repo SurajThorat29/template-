@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AK FITNESS | The Wellness Atelier</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        luxuryDark: '#0A0D14',
+                        luxuryLight: '#FBFBFC',
+                        champagne: '#D4AF37',
+                        champagneHover: '#C59B27',
+                        luxuryGray: '#707584'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FBFBFC;
+            color: #0A0D14;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .luxury-font {
+            font-family: 'Syne', sans-serif;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Premium Smooth Mobile Horizontal Carousel Engine */
+        @media (max-width: 1023px) {
+            .luxury-carousel {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            .luxury-carousel::-webkit-scrollbar {
+                display: none;
+            }
+            .carousel-card {
+                scroll-snap-align: center;
+                flex-shrink: 0;
+                width: 85vw; /* Leaves a beautiful visual sneak-peek of the next card */
+                margin-right: 1rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .luxury-carousel {
+                display: grid;
+                gap: 2rem;
+            }
+            .carousel-card {
+                width: 100% !important;
+                margin-right: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden relative pb-24 lg:pb-0">
+
+    <!-- Luxury Sticky Action Bottom Tab (Mobile Only) -->
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-t border-neutral-200 px-6 py-4 flex justify-between items-center lg:hidden">
+        <div>
+            <p class="text-[9px] uppercase tracking-widest text-luxuryGray font-bold">Club Status</p>
+            <p class="text-xs font-semibold text-luxuryDark">Passes Leaving Fast</p>
+        </div>
+        <a href="#contact" class="bg-luxuryDark text-white font-semibold px-5 py-3 text-xs uppercase tracking-widest hover:bg-neutral-800 transition-all">
+            Request Invite
+        </a>
+    </div>
+
+    <!-- Atelier Confirmation Overlay Modal -->
+    <div id="atelierModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-luxuryDark/40 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white max-w-sm w-full p-8 text-center space-y-6 shadow-2xl border border-neutral-100">
+            <div class="w-12 h-12 bg-luxuryDark text-white rounded-full flex items-center justify-center text-lg mx-auto">
+                <i class="fa-solid fa-feather-pointed"></i>
+            </div>
+            <div class="space-y-2">
+                <h3 class="luxury-font text-lg font-bold uppercase text-luxuryDark tracking-tight">Invitation Initiated</h3>
+                <p id="atelierMessage" class="text-xs text-luxuryGray font-light leading-relaxed">Our concierge desk will review your submission credentials shortly.</p>
+            </div>
+            <button onclick="closeAtelier()" class="w-full bg-luxuryDark hover:bg-neutral-800 text-white font-medium py-3 text-xs uppercase tracking-widest transition duration-300">
+                Return To Atelier
+            </button>
+        </div>
+    </div>
+
+    <!-- Minimalistic Floating Header Menu -->
+    <nav class="w-full fixed top-0 z-50 bg-white/70 backdrop-blur-md px-6 md:px-16 py-5 flex justify-between items-center border-b border-neutral-100">
+        <div class="luxury-font text-base md:text-lg font-extrabold tracking-tight text-luxuryDark">
+            AK <span class="font-normal text-luxuryGray">ATELIER</span>
+        </div>
+        
+        <!-- Desktop Nav Items -->
+        <div class="hidden lg:flex space-x-12 text-[11px] uppercase tracking-widest font-semibold text-luxuryGray">
+            <a href="#home" class="hover:text-luxuryDark transition-colors">The Club</a>
+            <a href="#philosophy" class="hover:text-luxuryDark transition-colors">Philosophy</a>
+            <a href="#curations" class="hover:text-luxuryDark transition-colors">Curations</a>
+            <a href="#pricing" class="hover:text-luxuryDark transition-colors">Tiers</a>
+            <a href="#contact" class="hover:text-luxuryDark transition-colors">Inquire</a>
+        </div>
+        
+        <div class="flex items-center space-x-6">
+            <div class="hidden sm:flex space-x-4 text-luxuryGray text-sm">
+                <a href="#" class="hover:text-luxuryDark transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-luxuryDark transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+            <a href="#contact" class="border border-luxuryDark text-luxuryDark text-[10px] font-bold uppercase tracking-widest px-5 py-2 hover:bg-luxuryDark hover:text-white transition-all duration-300">
+                Reserve Pass
+            </a>
+        </div>
+    </nav>
+
+    <!-- Clean Luxury Asymmetric Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center pt-24 px-6 md:px-20 bg-luxuryLight overflow-hidden">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-7 space-y-6 text-left z-10">
+                <div class="inline-flex items-center gap-3 text-luxuryGray text-[10px] font-bold uppercase tracking-widest">
+                    <span class="w-2 h-2 rounded-full bg-champagne"></span> Elite Wellness Collective
+                </div>
+                <h1 class="luxury-font text-4xl md:text-8xl font-black text-luxuryDark leading-none tracking-tighter">
+                    ELEVATE YOUR <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-champagne via-amber-600 to-luxuryDark">STANDARD.</span>
+                </h1>
+                <p class="text-luxuryGray text-xs md:text-base max-w-lg font-light leading-relaxed">
+                    Welcome to an elite training atmosphere tailored entirely to human peak capability. We fuse tailored anatomical strategy with state-of-the-art training architecture.
+                </p>
+                <div class="pt-4 flex flex-col sm:flex-row gap-4 max-w-xs sm:max-w-none">
+                    <a href="#contact" class="bg-luxuryDark hover:bg-neutral-800 text-white font-semibold px-8 py-4 uppercase tracking-widest text-xs text-center transition-all">
+                        Request Private Access
+                    </a>
+                    <a href="#curations" class="border border-neutral-300 hover:border-luxuryDark text-xs font-semibold px-8 py-4 uppercase tracking-widest text-center transition-all text-luxuryDark">
+                        Explore Curations
+                    </a>
+                </div>
+            </div>
+
+            <!-- Premium Asymmetric Right Media Block (Desktop Image Showcase) -->
+            <div class="lg:col-span-5 relative hidden lg:block">
+                <div class="absolute -top-6 -left-6 w-full h-full border border-champagne/30 pointer-events-none"></div>
+                <div class="h-[520px] overflow-hidden shadow-2xl relative">
+                    <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=1000" alt="Luxury Fitness Equipment" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clean Philosophy Segment -->
+    <section id="philosophy" class="py-24 lg:py-36 px-6 md:px-16 max-w-6xl mx-auto border-t border-neutral-100">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="relative h-[240px] md:h-[400px] overflow-hidden border border-neutral-100">
+                <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&q=80&w=1000" alt="Atelier Interior Floor" class="w-full h-full object-cover">
+            </div>
+
+            <div class="space-y-6">
+                <span class="text-xs font-bold text-champagne uppercase tracking-widest block">// CLUB PHILOSOPHY</span>
+                <h2 class="luxury-font text-2xl md:text-5xl font-bold uppercase text-luxuryDark tracking-tight">The Anti-Gym Architecture.</h2>
+                <p class="text-luxuryGray font-light leading-relaxed text-xs md:text-sm">
+                    We intentionally steer away from chaotic layouts and generic, crowded weight rooms. The AK Atelier operates as a high-end, clean sanctuary optimized strictly for precision muscle activation, high-end athletic performance splits, and recovery tracking.
+                </p>
+                <div class="grid grid-cols-2 gap-6 pt-4 border-t border-neutral-100">
+                    <div>
+                        <p class="luxury-font text-2xl md:text-3xl font-extrabold text-luxuryDark">1,200</p>
+                        <p class="text-[9px] uppercase font-bold tracking-widest text-luxuryGray mt-1">Capped Members</p>
+                    </div>
+                    <div>
+                        <p class="luxury-font text-2xl md:text-3xl font-extrabold text-luxuryDark">1:1</p>
+                        <p class="text-[9px] uppercase font-bold tracking-widest text-luxuryGray mt-1">Dedicated Precision Focus</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Curations Dynamic Module Deck -->
+    <section id="curations" class="py-24 bg-neutral-50 lg:px-16 border-t border-neutral-100">
+        <div class="max-w-6xl mx-auto space-y-12">
+            
+            <div class="text-center space-y-2 px-6">
+                <span class="text-xs font-bold text-luxuryGray uppercase tracking-widest block">Available Modalities</span>
+                <h2 class="luxury-font text-2xl md:text-5xl font-bold uppercase text-luxuryDark">The Curations Matrix</h2>
+                <!-- Mobile Only Carousel Indicator Hint -->
+                <div class="inline-flex lg:hidden items-center gap-1.5 text-[10px] text-champagne font-bold uppercase tracking-wider pt-2 animate-pulse">
+                    <span>Swipe Deck</span> <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                </div>
+            </div>
+
+            <!-- Fully Visible & Highly Responsive Horizontal Swipe Frame -->
+            <div class="luxury-carousel lg:grid-cols-3">
+                
+                <!-- Curation Card 1 -->
+                <div class="carousel-card bg-white p-6 border border-neutral-100 shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="h-44 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1605296867304-46d5465a25f1?auto=format&fit=crop&q=80&w=600" alt="Precision Strength" class="w-full h-full object-cover">
+                        </div>
+                        <span class="text-[10px] font-bold text-champagne tracking-widest block uppercase">Curation // 01</span>
+                        <h3 class="luxury-font text-base font-bold text-luxuryDark uppercase tracking-tight">Biomechanical Strength Lines</h3>
+                        <p class="text-luxuryGray text-xs leading-relaxed font-light">Train inside an elite framework utilizing specialized selectorized weight stacks, high-load power rigs, and pristine custom platforms.</p>
+                    </div>
+                    <button onclick="openInquiryModal('Biomechanical Strength System Request')" class="mt-8 border border-luxuryDark hover:bg-luxuryDark hover:text-white text-luxuryDark text-[10px] font-bold uppercase tracking-widest py-3 transition-colors">Request Reservation</button>
+                </div>
+
+                <!-- Curation Card 2 -->
+                <div class="carousel-card bg-white p-6 border border-neutral-100 shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="h-44 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=600" alt="Atelier Concierge Coaching" class="w-full h-full object-cover">
+                        </div>
+                        <span class="text-[10px] font-bold text-champagne tracking-widest block uppercase">Curation // 02</span>
+                        <h3 class="luxury-font text-base font-bold text-luxuryDark uppercase tracking-tight">Atelier Concierge Coaching</h3>
+                        <p class="text-luxuryGray text-xs leading-relaxed font-light">Direct alignment with physical transformation specialists. Dynamic movement analysis blueprints configured uniquely to match personal kinetic metrics.</p>
+                    </div>
+                    <button onclick="openInquiryModal('Concierge Performance Coaching Request')" class="mt-8 border border-luxuryDark hover:bg-luxuryDark hover:text-white text-luxuryDark text-[10px] font-bold uppercase tracking-widest py-3 transition-colors">Request Reservation</button>
+                </div>
+
+                <!-- Curation Card 3 -->
+                <div class="carousel-card bg-white p-6 border border-neutral-100 shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="h-44 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=600" alt="Nutritional Science Breakdown" class="w-full h-full object-cover">
+                        </div>
+                        <span class="text-[10px] font-bold text-champagne tracking-widest block uppercase">Curation // 03</span>
+                        <h3 class="luxury-font text-base font-bold text-luxuryDark uppercase tracking-tight">Nutritional Science Engineering</h3>
+                        <p class="text-luxuryGray text-xs leading-relaxed font-light">Metabolic profiles tracked to detail. Recalibrated caloric and macronutrient index parameters configured to accelerate lean tissue architecture.</p>
+                    </div>
+                    <button onclick="openInquiryModal('Metabolic Nutrition Profile Request')" class="mt-8 border border-luxuryDark hover:bg-luxuryDark hover:text-white text-luxuryDark text-[10px] font-bold uppercase tracking-widest py-3 transition-colors">Request Reservation</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Clean Multi-Tier Pricing Array -->
+    <section id="pricing" class="py-24 lg:py-36 lg:px-16 border-t border-neutral-100">
+        <div class="text-center space-y-2 mb-12 px-6">
+            <span class="text-xs font-bold text-luxuryGray uppercase tracking-widest block">Atelier Portals</span>
+            <h2 class="luxury-font text-2xl md:text-5xl font-bold uppercase text-luxuryDark">Membership Access Tiers</h2>
+            <!-- Mobile Only Carousel Indicator Hint -->
+            <div class="inline-flex lg:hidden items-center gap-1.5 text-[10px] text-champagne font-bold uppercase tracking-wider pt-2 animate-pulse">
+                <span>Swipe Tiers</span> <i class="fa-solid fa-arrow-right text-[9px]"></i>
+            </div>
+        </div>
+
+        <!-- Fully Visible Responsive Pricing Engine Carousel -->
+        <div class="luxury-carousel lg:grid-cols-3">
+            
+            <!-- Tier 1 -->
+            <div class="carousel-card bg-white p-8 border border-neutral-200 flex flex-col justify-between relative">
+                <div class="space-y-6">
+                    <h3 class="luxury-font text-xs font-bold uppercase text-luxuryGray">The Atelier Access</h3>
+                    <div class="text-3xl font-extrabold text-luxuryDark tracking-tight font-sans">₹1,499 <span class="text-xs font-normal text-luxuryGray">/mo</span></div>
+                    <hr class="border-neutral-100">
+                    <ul class="text-xs space-y-4 text-luxuryGray font-medium">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-champagne"></i> Off-Peak Training Privileges</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-champagne"></i> Luxury Locker & Spa Access</li>
+                    </ul>
+                </div>
+                <button onclick="openInquiryModal('Atelier Standard Tier Selection')" class="w-full mt-10 border border-luxuryDark hover:bg-luxuryDark hover:text-white text-luxuryDark font-semibold py-3.5 text-xs uppercase tracking-widest transition-all">Select Tier</button>
+            </div>
+
+            <!-- Tier 2 (Highlighted Platinum Suite) -->
+            <div class="carousel-card bg-luxuryDark p-8 border border-luxuryDark flex flex-col justify-between relative shadow-xl">
+                <div class="absolute -top-3 left-6 bg-champagne text-white font-bold text-[8px] uppercase px-3 py-1 tracking-widest">
+                    Recommended Tier
+                </div>
+                <div class="space-y-6 mt-2">
+                    <h3 class="luxury-font text-xs font-bold uppercase text-neutral-400">The Reserve Suite</h3>
+                    <div class="text-3xl font-extrabold text-white tracking-tight font-sans">₹2,999 <span class="text-xs font-normal text-neutral-500">/mo</span></div>
+                    <hr class="border-neutral-800">
+                    <ul class="text-xs space-y-4 text-neutral-300 font-medium">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-bolt text-champagne"></i> Unrestricted 24/7 Access Profile</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-bolt text-champagne"></i> High-Velocity Functional Zones</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-bolt text-champagne"></i> Dedicated General Concierge Advisory</li>
+                    </ul>
+                </div>
+                <button onclick="openInquiryModal('Reserve Suite Level Package')" class="w-full mt-10 bg-champagne hover:bg-champagneHover text-white font-semibold py-3.5 text-xs uppercase tracking-widest transition-colors shadow-md">Select Tier</button>
+            </div>
+
+            <!-- Tier 3 -->
+            <div class="carousel-card bg-white p-8 border border-neutral-200 flex flex-col justify-between relative">
+                <div class="space-y-6">
+                    <h3 class="luxury-font text-xs font-bold uppercase text-luxuryGray">The Sovereignty Suite</h3>
+                    <div class="text-3xl font-extrabold text-luxuryDark tracking-tight font-sans">₹4,999 <span class="text-xs font-normal text-luxuryGray">/mo</span></div>
+                    <hr class="border-neutral-100">
+                    <ul class="text-xs space-y-4 text-luxuryGray font-medium">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-champagne"></i> All Reserve Tier Privileges Included</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-champagne"></i> Private Technical Specialist Assigned</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-champagne"></i> Tailored Molecular Diet Breakdowns</li>
+                    </ul>
+                </div>
+                <button onclick="openInquiryModal('Sovereignty Ultimate Experience Tier')" class="w-full mt-10 border border-luxuryDark hover:bg-luxuryDark hover:text-white text-luxuryDark font-semibold py-3.5 text-xs uppercase tracking-widest transition-all">Select Tier</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bespoke Invitation Form Segment -->
+    <section id="contact" class="py-24 px-6 max-w-xl mx-auto border-t border-neutral-100">
+        <div class="bg-white p-8 md:p-12 border border-neutral-200 shadow-sm relative">
+            
+            <div class="text-center space-y-2 mb-10">
+                <span class="text-xs font-bold text-champagne uppercase tracking-widest block">// PRIVÉ APPLICATION</span>
+                <h2 class="luxury-font text-xl md:text-3xl font-bold uppercase text-luxuryDark">Apply For Admission</h2>
+                <p class="text-luxuryGray text-xs font-light">Submissions are evaluated by club management within 24 hours.</p>
+            </div>
+
+            <form onsubmit="submitAtelierForm(event)" class="space-y-6 max-w-xs mx-auto sm:max-w-none">
+                <div>
+                    <label class="block text-[9px] uppercase tracking-widest font-bold text-luxuryDark mb-2">Legal Identity Name</label>
+                    <input id="guestName" type="text" required placeholder="Alexander Vance" class="w-full p-4 rounded-none bg-neutral-50 border border-neutral-200 text-luxuryDark placeholder-neutral-400 focus:outline-none focus:border-luxuryDark text-xs transition-colors">
+                </div>
+                <div>
+                    <label class="block text-[9px] uppercase tracking-widest font-bold text-luxuryDark mb-2">Primary Mobile Comms</label>
+                    <input id="guestPhone" type="tel" required placeholder="+91 00000 00000" class="w-full p-4 rounded-none bg-neutral-50 border border-neutral-200 text-luxuryDark placeholder-neutral-400 focus:outline-none focus:border-luxuryDark text-xs transition-colors">
+                </div>
+                <div>
+                    <label class="block text-[9px] uppercase tracking-widest font-bold text-luxuryDark mb-2">Intended Development Pathway</label>
+                    <select class="w-full p-4 rounded-none bg-neutral-50 border border-neutral-200 text-luxuryGray focus:outline-none focus:border-luxuryDark text-xs transition-colors">
+                        <option>Anatomical Structural Rebuild</option>
+                        <option>Athletic Power Maximization</option>
+                        <option>Cardiovascular Energy Balancing</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full mt-4 bg-luxuryDark hover:bg-neutral-800 text-white font-semibold py-4 text-xs uppercase tracking-widest transition-all shadow-md">
+                    Submit Membership Query
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Atelier Minimalist Footer -->
+    <footer class="border-t border-neutral-100 bg-white py-12 text-center space-y-4">
+        <div class="flex justify-center space-x-8 text-neutral-400 text-base">
+            <a href="#" class="hover:text-luxuryDark transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="hover:text-luxuryDark transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+        <div class="text-[9px] text-neutral-400 tracking-widest uppercase font-medium">
+            © 2026 AK ATELIER. ARCHITECTURAL MINIMALISM FRAMEWORK. ALL RIGHTS RESERVED.
+        </div>
+    </footer>
+
+    <!-- Core Interactive Operations Engine -->
+    <script>
+        function openInquiryModal(planName) {
+            const modal = document.getElementById('atelierModal');
+            const note = document.getElementById('atelierMessage');
+            
+            note.innerText = `You have initiated credentials matching sequence for: "${planName}". Our concierge specialist desk will verify your parameters within 10 minutes.`;
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        function submitAtelierForm(event) {
+            event.preventDefault();
+            const clientName = document.getElementById('guestName').value;
+            const modal = document.getElementById('atelierModal');
+            const note = document.getElementById('atelierMessage');
+            
+            note.innerText = `Acknowledged, ${clientName}. Your custom physical atelier entry trial barcode sequence is clearing security pipelines and has been dispatched directly to your mobile device.`;
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+            
+            event.target.reset();
+        }
+
+        function closeAtelier() {
+            const modal = document.getElementById('atelierModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
