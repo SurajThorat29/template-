@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AK FITNESS | Premium Arena</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Orbitron:wght@800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030508;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .heading-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .grid-mesh {
+            background-image: linear-gradient(rgba(239, 68, 68, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(239, 68, 68, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glassmorphism {
+            background: rgba(15, 15, 25, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .red-glow {
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+        }
+        .card-glow:hover {
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Adaptive Swiper Engine: Horizontal Carousel on Mobile, Native Grid on Desktop */
+        @media (max-width: 1023px) {
+            .adaptive-swiper {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 15px;
+            }
+            .adaptive-swiper::-webkit-scrollbar {
+                display: none;
+            }
+            .swiper-card {
+                scroll-snap-align: start;
+                flex-shrink: 0;
+                width: 290px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .adaptive-swiper {
+                display: grid;
+                gap: 2rem;
+            }
+            .swiper-card {
+                width: 100% !important;
+            }
+        }
+
+        /* Subtle Ambient Glow Animations */
+        @keyframes float-slow {
+            0% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(30px, -50px) scale(1.1); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-float {
+            animation: float-slow 10s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-gray-200 overflow-x-hidden relative grid-mesh pb-16 lg:pb-0">
+
+    <!-- Mobile-Only Persistent Bottom Action Tracker Bar -->
+    <div class="fixed bottom-0 left-0 right-0 z-50 glassmorphism border-t border-white/10 px-5 py-3 flex justify-between items-center lg:hidden">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            <span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Slots Open Today</span>
+        </div>
+        <a href="#contact" class="bg-gradient-to-r from-red-600 to-orange-500 text-white font-black px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider red-glow active:scale-95 transition-all">
+            Get Free Pass[cite: 1]
+        </a>
+    </div>
+
+    <!-- Interactive Interactive Success Modal -->
+    <div id="successModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="glassmorphism max-w-sm w-full p-8 rounded-2xl border border-red-500/30 text-center space-y-4 shadow-2xl">
+            <div class="w-14 h-14 bg-red-600/20 text-red-500 border border-red-500/30 rounded-full flex items-center justify-center text-xl mx-auto">
+                <i class="fa-solid fa-bolt animate-bounce"></i>
+            </div>
+            <h3 class="heading-font text-lg font-black uppercase text-white tracking-wide">Pass Reserved!</h3>
+            <p id="modalMessage" class="text-xs text-gray-400 font-light">Your membership token has been logged.</p>
+            <button onclick="closeModal()" class="w-full bg-gradient-to-r from-red-600 to-orange-600 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-widest transition duration-300">
+                Let's Train
+            </button>
+        </div>
+    </div>
+
+    <!-- Decorative Background Spotlight Blobs -->
+    <div class="absolute top-1/4 left-10 w-96 h-96 bg-red-600/10 rounded-full blur-[130px] pointer-events-none animate-float"></div>
+
+    <!-- Premium Header Navbar (Universal Layout) -->
+    <nav class="w-full fixed top-0 z-50 glassmorphism px-4 md:px-8 py-4 flex justify-between items-center border-b border-white/5">
+        <div class="heading-font text-xl md:text-2xl font-black tracking-wider text-white">
+            AK<span class="text-red-500"> FITNESS</span>
+        </div>
+        
+        <!-- Desktop Navigation Items Grid -->
+        <div class="hidden lg:flex space-x-8 text-xs uppercase tracking-widest font-semibold">
+            <a href="#home" class="hover:text-red-500 transition-colors">Home</a>
+            <a href="#about" class="hover:text-red-500 transition-colors">About</a>
+            <a href="#services" class="hover:text-red-500 transition-colors">Services</a>
+            <a href="#gallery" class="hover:text-red-500 transition-colors">Gallery</a>
+            <a href="#pricing" class="hover:text-red-500 transition-colors">Pricing</a>
+            <a href="#contact" class="hover:text-red-500 transition-colors">Contact</a>
+        </div>
+        
+        <!-- Social Interaction Header Block -->
+        <div class="flex items-center space-x-4">
+            <div class="flex space-x-3 text-gray-400 text-sm md:text-base">
+                <a href="#" class="hover:text-red-500 transition-transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-red-500 transition-transform hover:scale-110"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" class="hidden sm:inline hover:text-red-500 transition-transform hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            <a href="#contact" class="hidden lg:inline-block bg-gradient-to-r from-red-600 to-red-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider transition-all hover:scale-105 shadow-md shadow-red-600/10">
+                Join Now
+            </a>
+        </div>
+    </nav>
+
+    <!-- Master Adaptive Hero Frame Display Area -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 px-5 bg-gradient-to-b from-transparent via-neutral-950/20 to-black overflow-hidden">
+        <!-- Colorful HD Hero Background Image Grid -->
+        <div class="absolute inset-0 z-0 opacity-25">
+            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=1920" alt="Premium Gym Equipment" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#030508] via-transparent to-[#030508]"></div>
+        </div>
+        
+        <div class="max-w-4xl text-center z-10 space-y-6">
+            <div class="inline-block bg-red-600/10 border border-red-500/20 text-red-400 text-[10px] md:text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest">
+                ⚡ Premium Arena Access Pipeline
+            </div>
+            <h1 class="heading-font text-4xl md:text-8xl font-black tracking-tight text-white uppercase leading-none">
+                Crush Your Goals At <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-500 to-red-600 drop-shadow-[0_5px_25px_rgba(239,68,68,0.3)]">AK FITNESS</span>
+            </h1>
+            <p class="text-gray-400 text-xs md:text-lg max-w-xl mx-auto font-light leading-relaxed">
+                Experience elite coaching blueprints, high-energy group environments, and vibrant training gear engineered to optimize physical power.[cite: 1]
+            </p>
+            <div class="pt-4 flex flex-col sm:flex-row justify-center gap-3 max-w-xs sm:max-w-none mx-auto">
+                <a href="#contact" class="bg-red-600 hover:bg-red-700 text-white font-black px-8 py-4 rounded-xl uppercase tracking-wider text-xs red-glow hover:scale-105 text-center transition-all">
+                    Claim Free Pass[cite: 1]
+                </a>
+                <a href="#services" class="border border-neutral-800 text-xs font-semibold px-8 py-4 rounded-xl uppercase tracking-wider text-center glassmorphism hover:bg-white/5 transition-all">
+                    Explore Services[cite: 1]
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Structural Layout Grid Frame (About) -->
+    <section id="about" class="py-20 lg:py-28 px-5 max-w-6xl mx-auto border-t border-neutral-900/60">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <span class="text-xs font-bold text-red-500 uppercase tracking-widest flex items-center gap-2">
+                    <span class="w-8 h-[1px] bg-red-500"></span> Who We Are[cite: 1]
+                </span>
+                <h2 class="heading-font text-2xl md:text-5xl font-black uppercase text-white leading-tight">We Build Stronger Foundations[cite: 1]</h2>
+                <p class="text-gray-400 font-light leading-relaxed text-xs md:text-base">
+                    At AK Fitness, we believe functional fitness shouldn't feel like a chore[cite: 1]. We provide an uncompromising, premium training floor equipped with vibrant strength lines, clean functional zones, and transformation specialists focused entirely on your progress[cite: 1].
+                </p>
+                
+                <div class="grid grid-cols-2 gap-4 pt-2">
+                    <div class="p-4 md:p-6 rounded-xl bg-neutral-900/20 border border-neutral-800/80">
+                        <div class="heading-font text-3xl md:text-4xl font-black text-red-500">1200+</div>
+                        <div class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider mt-1 font-semibold">Active Members[cite: 1]</div>
+                    </div>
+                    <div class="p-4 md:p-6 rounded-xl bg-neutral-900/20 border border-neutral-800/80">
+                        <div class="heading-font text-3xl md:text-4xl font-black text-red-500">15+</div>
+                        <div class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider mt-1 font-semibold">Elite Coaches[cite: 1]</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Colorful Dynamic Showcase Image Asset -->
+            <div class="relative h-[300px] md:h-[420px] rounded-2xl border border-neutral-800 overflow-hidden group shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1000" alt="Vibrant AK Training Area" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                <div class="absolute bottom-6 left-6 z-20">
+                    <p class="heading-font text-sm font-black text-white uppercase tracking-wider">MAIN TRAINING ARENA FLOOR[cite: 1]</p>
+                    <p class="text-[10px] text-red-400 uppercase tracking-widest font-semibold mt-0.5">High Intensity Output Platform</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section with Adaptive Responsive Swiper -->
+    <section id="services" class="py-20 lg:py-28 bg-neutral-950/20 border-t border-neutral-900/60 px-5">
+        <div class="max-w-6xl mx-auto space-y-12">
+            <div class="flex justify-between items-end">
+                <div>
+                    <span class="text-xs font-bold text-red-500 uppercase tracking-widest block mb-1">Premium Core Options</span>
+                    <h2 class="heading-font text-2xl md:text-5xl font-black uppercase text-white">Services Matrix[cite: 1]</h2>
+                </div>
+                <!-- Visual Indicator Only Shown on Mobile View -->
+                <div class="flex items-center gap-2 text-xs text-red-400 font-medium tracking-wide lg:hidden animate-pulse">
+                    <span>Swipe Cards</span> <i class="fa-solid fa-arrow-right-long text-[10px]"></i>
+                </div>
+            </div>
+
+            <!-- Adaptive Layout Swiper Deck -->
+            <div class="adaptive-swiper lg:grid-cols-3">
+                <!-- Service Item Component 1 -->
+                <div class="swiper-card glassmorphism p-5 rounded-2xl border border-neutral-900 card-glow transition-all duration-500 flex flex-col justify-between mr-4 lg:mr-0">
+                    <div class="space-y-4">
+                        <div class="h-44 rounded-xl overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=600" alt="Hypertrophy Strength Training" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        </div>
+                        <h3 class="heading-font text-base font-bold text-white uppercase tracking-wide flex items-center gap-2">
+                            <span class="text-red-500"><i class="fa-solid fa-dumbbell"></i></span> Strength Lines[cite: 1]
+                        </h3>
+                        <p class="text-gray-400 text-xs md:text-sm font-light leading-relaxed">Access heavy-duty power lines, selectorized plate-loaded racks, and platforms built for output hypertrophy.[cite: 1]</p>
+                    </div>
+                    <button onclick="triggerAction('Hypertrophy Strength Training System Tier')" class="mt-6 text-xs text-red-400 font-bold uppercase tracking-wider flex items-center gap-2 hover:text-white transition-colors">Book Session <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                
+                <!-- Service Item Component 2 -->
+                <div class="swiper-card glassmorphism p-5 rounded-2xl border border-neutral-900 card-glow transition-all duration-500 flex flex-col justify-between mr-4 lg:mr-0">
+                    <div class="space-y-4">
+                        <div class="h-44 rounded-xl overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=600" alt="Personal Performance Coaching" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        </div>
+                        <h3 class="heading-font text-base font-bold text-white uppercase tracking-wide flex items-center gap-2">
+                            <span class="text-red-500"><i class="fa-solid fa-user-shield"></i></span> Elite Coaching[cite: 1]
+                        </h3>
+                        <p class="text-gray-400 text-xs md:text-sm font-light leading-relaxed">Work 1-on-1 with dedicated coaches to calibrate volume splits, execution form, and performance metrics.[cite: 1]</p>
+                    </div>
+                    <button onclick="triggerAction('1-on-1 Master Tactical Coaching Framework')" class="mt-6 text-xs text-red-400 font-bold uppercase tracking-wider flex items-center gap-2 hover:text-white transition-colors">Book Session <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                
+                <!-- Service Item Component 3 -->
+                <div class="swiper-card glassmorphism p-5 rounded-2xl border border-neutral-900 card-glow transition-all duration-500 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="h-44 rounded-xl overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=600" alt="Macro Diet Profile Architecture" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        </div>
+                        <h3 class="heading-font text-base font-bold text-white uppercase tracking-wide flex items-center gap-2">
+                            <span class="text-red-500"><i class="fa-solid fa-apple-whole"></i></span> Diet Design[cite: 1]
+                        </h3>
+                        <p class="text-gray-400 text-xs md:text-sm font-light leading-relaxed">Receive calibrated macro index breakdowns and tailored dietary indexes configured to fit individual conversion goals.[cite: 1]</p>
+                    </div>
+                    <button onclick="triggerAction('Calibrated Metabolic Blueprint Diet Allocation')" class="mt-6 text-xs text-red-400 font-bold uppercase tracking-wider flex items-center gap-2 hover:text-white transition-colors">Book Session <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facility Gallery Deck Area Layout Matrix -->
+    <section id="gallery" class="py-20 lg:py-28 px-5 max-w-6xl mx-auto border-t border-neutral-900/60">
+        <div class="flex justify-between items-end mb-10">
+            <div>
+                <span class="text-xs font-bold text-red-500 uppercase tracking-widest block mb-1">Inside The Facility</span>
+                <h2 class="heading-font text-2xl md:text-5xl font-black uppercase text-white">Visual Arena Vibe[cite: 1]</h2>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-red-400 font-medium tracking-wide lg:hidden animate-pulse">
+                <span>Swipe Hub</span> <i class="fa-solid fa-arrow-right-long text-[10px]"></i>
+            </div>
+        </div>
+
+        <!-- Adaptive Swiper Framework (Mobile=Scroll list, Desktop=Four Column Responsive Deck) -->
+        <div class="adaptive-swiper lg:grid-cols-4 gap-4">
+            <div class="swiper-card w-[220px] h-72 rounded-xl border border-neutral-800 relative overflow-hidden group shadow-lg mr-3 lg:mr-0">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&q=80&w=500" alt="Rowing Machines Cardio Deck" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <span class="absolute bottom-4 left-4 text-white text-xs font-bold tracking-wider uppercase z-20 heading-font bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded border border-white/5">Cardio Deck[cite: 1]</span>
+            </div>
+            <div class="swiper-card w-[220px] h-72 rounded-xl border border-neutral-800 relative overflow-hidden group shadow-lg mr-3 lg:mr-0">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1605296867304-46d5465a25f1?auto=format&fit=crop&q=80&w=500" alt="Heavy Weight Strength Zone" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <span class="absolute bottom-4 left-4 text-white text-xs font-bold tracking-wider uppercase z-20 heading-font bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded border border-white/5">Strength Zone[cite: 1]</span>
+            </div>
+            <div class="swiper-card w-[220px] h-72 rounded-xl border border-neutral-800 relative overflow-hidden group shadow-lg mr-3 lg:mr-0">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&q=80&w=500" alt="Premium Dumbbells Free Weights Station" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <span class="absolute bottom-4 left-4 text-white text-xs font-bold tracking-wider uppercase z-20 heading-font bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded border border-white/5">Free Weights[cite: 1]</span>
+            </div>
+            <div class="swiper-card w-[220px] h-72 rounded-xl border border-neutral-800 relative overflow-hidden group shadow-lg">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&q=80&w=500" alt="Sled Push MMA Turf Track" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                <span class="absolute bottom-4 left-4 text-white text-xs font-bold tracking-wider uppercase z-20 heading-font bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded border border-white/5">MMA / Turf Area[cite: 1]</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Tiers Matrix Framework -->
+    <section id="pricing" class="py-20 lg:py-28 bg-neutral-950/20 border-t border-neutral-900/60 px-5">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center space-y-2 mb-12 lg:mb-16">
+                <span class="text-xs font-bold text-red-500 uppercase tracking-widest block">Membership Tiers[cite: 1]</span>
+                <h2 class="heading-font text-2xl md:text-5xl font-black uppercase text-white">Select Your Plan[cite: 1]</h2>
+            </div>
+
+            <!-- Unified Adaptive Layout: Responsive Grid System across devices -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch max-w-sm mx-auto lg:max-w-none">
+                <!-- Package Component Card 1 -->
+                <div class="glassmorphism rounded-2xl p-6 md:p-8 flex flex-col justify-between border border-neutral-800/80 hover:border-neutral-700 transition-all duration-300 relative group">
+                    <div class="space-y-4">
+                        <h3 class="heading-font text-sm font-bold uppercase text-gray-400">Basic Floor[cite: 1]</h3>
+                        <div class="text-4xl md:text-5xl font-black text-white heading-font">₹1,499 <span class="text-xs font-normal text-gray-500">/mo</span></div>
+                        <hr class="border-neutral-900">
+                        <ul class="text-xs md:text-sm space-y-3 text-gray-300 font-light">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i> General Gym Floor Access[cite: 1]</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i> Locker & Shower Amenities[cite: 1]</li>
+                            <li class="flex items-center gap-2 text-neutral-600"><i class="fa-solid fa-circle-xmark text-xs"></i> Trainer Support[cite: 1]</li>
+                        </ul>
+                    </div>
+                    <button onclick="triggerAction('Basic Floor Plan Package Account')" class="w-full mt-8 border border-red-500/20 hover:border-red-500 text-red-500 font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 hover:bg-red-600 hover:text-white">Select Access[cite: 1]</button>
+                </div>
+
+                <!-- Package Component Card 2 (Elite Featured) -->
+                <div class="bg-gradient-to-b from-neutral-900 to-black rounded-2xl p-6 md:p-8 flex flex-col justify-between border-2 border-red-600 relative red-glow transition-all duration-300 hover:scale-102">
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-red-600 text-white font-black heading-font text-[9px] uppercase px-4 py-1 rounded-full tracking-widest shadow-md">
+                        Most Popular[cite: 1]
+                    </div>
+                    <div class="space-y-4 mt-2">
+                        <h3 class="heading-font text-sm font-bold uppercase text-red-400">Elite Growth[cite: 1]</h3>
+                        <div class="text-4xl md:text-5xl font-black text-white heading-font">₹2,999 <span class="text-xs font-normal text-gray-500">/mo</span></div>
+                        <hr class="border-neutral-900">
+                        <ul class="text-xs md:text-sm space-y-3 text-gray-200 font-light">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i> 24/7 Premium Floor Access[cite: 1]</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i> Group Workouts & CrossFit Access[cite: 1]</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i> General Trainer Assistance[cite: 1]</li>
+                        </ul>
+                    </div>
+                    <button onclick="triggerAction('Elite Growth Structural Level System Membership')" class="w-full mt-8 bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl text-xs uppercase tracking-wider transition-all duration-300">Select Access[cite: 1]</button>
+                </div>
+
+                <!-- Package Component Card 3 -->
+                <div class="glassmorphism rounded-2xl p-6 md:p-8 flex flex-col justify-between border border-neutral-800/80 hover:border-neutral-700 transition-all duration-300 relative group">
+                    <div class="space-y-4">
+                        <h3 class="heading-font text-sm font-bold uppercase text-gray-400">VIP Pro[cite: 1]</h3>
+                        <div class="text-4xl md:text-5xl font-black text-white heading-font">₹4,999 <span class="text-xs font-normal text-gray-500">/mo</span></div>
+                        <hr class="border-neutral-900">
+                        <ul class="text-xs md:text-sm space-y-3 text-gray-300 font-light">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i> Everything in Elite Tier[cite: 1]</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i> Dedicated Personal Coach[cite: 1]</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i> Custom Nutrition Profiles[cite: 1]</li>
+                        </ul>
+                    </div>
+                    <button onclick="triggerAction('V.I.P Performance Luxury Account Matrix')" class="w-full mt-8 border border-red-500/20 hover:border-red-500 text-red-500 font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 hover:bg-red-600 hover:text-white">Select Access[cite: 1]</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Capture Form Input Section Component -->
+    <section id="contact" class="py-20 lg:py-28 px-5 max-w-2xl mx-auto border-t border-neutral-900/60">
+        <div class="glassmorphism rounded-2xl p-6 md:p-12 space-y-8 red-glow-subtle border border-neutral-800/60 relative">
+            <div class="text-center space-y-1">
+                <span class="text-xs font-bold text-red-500 uppercase tracking-widest block">Secure Free Pass[cite: 1]</span>
+                <h2 class="heading-font text-xl md:text-4xl font-black uppercase text-white">Claim Your Free Pass[cite: 1]</h2>
+                <p class="text-gray-400 text-xs font-light">Submissions lock instant orientation tokens.[cite: 1]</p>
+            </div>
+
+            <form onsubmit="handleFormSubmit(event)" class="space-y-4 max-w-sm mx-auto sm:max-w-none">
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest font-semibold text-gray-400 mb-2">Full Name[cite: 1]</label>
+                    <input id="formName" type="text" required placeholder="John Doe" class="w-full p-4 rounded-xl bg-neutral-950 border border-neutral-800 text-white placeholder-gray-600 focus:outline-none focus:border-red-500 text-xs transition-colors">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest font-semibold text-gray-400 mb-2">Phone Number[cite: 1]</label>
+                    <input id="formPhone" type="tel" required placeholder="+91 XXXXX XXXXX" class="w-full p-4 rounded-xl bg-neutral-950 border border-neutral-800 text-white placeholder-gray-600 focus:outline-none focus:border-red-500 text-xs transition-colors">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest font-semibold text-gray-400 mb-2">Select Goal[cite: 1]</label>
+                    <select class="w-full p-4 rounded-xl bg-neutral-950 border border-neutral-800 text-gray-400 focus:outline-none focus:border-red-500 text-xs transition-colors">
+                        <option>Weight Loss[cite: 1]</option>
+                        <option>Muscle Gain[cite: 1]</option>
+                        <option>General Fitness[cite: 1]</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full mt-2 bg-gradient-to-r from-red-600 to-orange-600 text-white font-black py-4 rounded-xl text-xs uppercase tracking-widest transition-all red-glow">
+                    Submit Request[cite: 1]
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Global Layout Footer System -->
+    <footer class="border-t border-neutral-900 bg-black/40 py-12 text-center space-y-4">
+        <div class="flex justify-center space-x-6 text-gray-500 text-lg">
+            <a href="#" class="hover:text-red-500 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="hover:text-red-500 transition-colors"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" class="hover:text-red-500 transition-colors"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" class="hover:text-red-500 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+        <div class="text-[10px] text-gray-600 tracking-widest uppercase">
+            © 2026 AK Fitness. Fully Adaptive Execution Core. All Rights Reserved.[cite: 1]
+        </div>
+    </footer>
+
+    <!-- Operational Core JavaScript Functions -->
+    <script>
+        function triggerAction(tierName) {
+            const modal = document.getElementById('successModal');
+            const message = document.getElementById('modalMessage');
+            
+            message.innerText = `Excellent! You've picked "${tierName}". Our onboarding team will contact your phone line within 10 minutes to setup your secure keypass entry barcode.`;
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('formName').value;
+            const modal = document.getElementById('successModal');
+            const message = document.getElementById('modalMessage');
+            
+            message.innerText = `Welcome to the arena, ${name}! Your V.I.P day pass has been generated. Check your phone updates shortly for secure login verification codes.`;
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+            
+            event.target.reset();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Navbar Compression Engine logic
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 40) {
+                nav.style.background = "rgba(3, 5, 8, 0.95)";
+                nav.style.paddingTop = "10px";
+                nav.style.paddingBottom = "10px";
+            } else {
+                nav.style.background = "rgba(15, 15, 25, 0.6)";
+                nav.style.paddingTop = "16px";
+                nav.style.paddingBottom = "16px";
+            }
+        });
+    </script>
+</body>
+</html>
